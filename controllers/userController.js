@@ -61,7 +61,7 @@ const userController = {
           password: hashedPassword,
         });
         await user.save();
-        res.status(200).send('Sign up successful');
+        res.status(200).json({ message: 'Sign up successful' });
       }
     }),
   ],

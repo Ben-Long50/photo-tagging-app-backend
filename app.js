@@ -7,6 +7,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import userRouter from './routes/users.js';
 import levelRouter from './routes/levels.js';
+import authRouter from './routes/authentication.js';
+import scoreRouter from './routes/score.js';
 
 const app = express();
 mongoose.set('strictQuery', false);
@@ -26,8 +28,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(import.meta.dirname, 'public')));
 
 app.use(cors());
+app.use('/', authRouter);
 app.use('/', userRouter);
 app.use('/', levelRouter);
+app.use('/', scoreRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
