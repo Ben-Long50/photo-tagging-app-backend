@@ -11,13 +11,12 @@ import authRouter from './routes/authentication.js';
 import scoreRouter from './routes/score.js';
 
 const app = express();
-mongoose.set('strictQuery', false);
+
 const mongoDB = process.env.DATABASE_URL;
 
-async function main() {
-  await mongoose.connect(mongoDB);
-}
-main().catch((err) => console.log(err));
+mongoose.connect(mongoDB);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'mongo connection error'));
 
 app.use(logger('dev'));
 app.use(express.json());
