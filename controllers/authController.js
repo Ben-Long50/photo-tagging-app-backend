@@ -39,14 +39,19 @@ const authController = {
         res.status(400).json(errors.array());
       } else {
         const user = await User.findOne({ username: req.body.username });
-        jwt.sign({ user }, 'cats', { expiresIn: '1h' }, (err, token) => {
-          if (err) {
-            res.status(500).json({ message: 'Error generating token' });
-          }
-          res.json({
-            token,
-          });
-        });
+        jwt.sign(
+          { user },
+          process.env.SESSION_KEY,
+          { expiresIn: '1h' },
+          (err, token) => {
+            if (err) {
+              res.status(500).json({ message: 'Error generating token' });
+            }
+            res.json({
+              token,
+            });
+          },
+        );
       }
     }),
   ],
@@ -56,7 +61,7 @@ const authController = {
     if (typeof bearerHeader !== 'undefined') {
       const bearerToken = bearerHeader.split(' ')[1];
       req.token = bearerToken;
-      jwt.verify(req.token, 'cats', (err) => {
+      jwt.verify(req.token, process.env.SESSION_KEY, (err) => {
         if (err) {
           res.sendStatus(403);
         } else {

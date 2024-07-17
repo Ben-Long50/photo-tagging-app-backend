@@ -12,9 +12,7 @@ import scoreRouter from './routes/score.js';
 
 const app = express();
 mongoose.set('strictQuery', false);
-const mongoDB =
-  process.env.DATABASE_URL ||
-  'mongodb+srv://benjlong50:KyRT82VdIE4AoGbD@cluster0.q5mbwcr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoDB = process.env.DATABASE_URL;
 
 async function main() {
   await mongoose.connect(mongoDB);
